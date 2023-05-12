@@ -135,6 +135,13 @@ open class ESTabBarController: UITabBarController, ESTabBarDelegate {
         }
         return true
     }
+
+    internal func tabBar(_ tabBar: UITabBar, shouldHighlight item: UITabBarItem) -> Bool {
+        if let idx = tabBar.items?.firstIndex(of: item), let vc = viewControllers?[idx] {
+            return delegate?.tabBarController?(self, shouldHighlight: vc) ?? true
+        }
+        return true
+    }
     
     internal func tabBar(_ tabBar: UITabBar, shouldHijack item: UITabBarItem) -> Bool {
         if let idx = tabBar.items?.firstIndex(of: item), let vc = viewControllers?[idx] {

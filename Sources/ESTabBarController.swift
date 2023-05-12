@@ -30,6 +30,8 @@ public typealias ESTabBarControllerShouldHijackHandler = ((_ tabBarController: U
 /// 自定义点击事件回调类型
 public typealias ESTabBarControllerDidHijackHandler = ((_ tabBarController: UITabBarController, _ viewController: UIViewController, _ index: Int) -> (Void))
 
+public typealias ESTabBarControllerShouldHighlightHandler = ((_ tabBarController: UITabBarController, shouldHighlight viewController: UIViewController) -> (Void))
+
 open class ESTabBarController: UITabBarController, ESTabBarDelegate {
     
     /// 打印异常
@@ -51,6 +53,8 @@ open class ESTabBarController: UITabBarController, ESTabBarDelegate {
     open var shouldHijackHandler: ESTabBarControllerShouldHijackHandler?
     /// Hijack select action.
     open var didHijackHandler: ESTabBarControllerDidHijackHandler?
+
+    open var shouldHighlightHandler: ESTabBarControllerShouldHighlightHandler?
     
     /// Observer tabBarController's selectedViewController. change its selection when it will-set.
     open override var selectedViewController: UIViewController? {
@@ -138,7 +142,7 @@ open class ESTabBarController: UITabBarController, ESTabBarDelegate {
 
     internal func tabBar(_ tabBar: UITabBar, shouldHighlight item: UITabBarItem) -> Bool {
         if let idx = tabBar.items?.firstIndex(of: item), let vc = viewControllers?[idx] {
-            return delegate?.tabBarController?(self, shouldHighlight: vc) ?? true
+            return shouldHighlightHandler?(self, vc) ?? true
         }
         return true
     }

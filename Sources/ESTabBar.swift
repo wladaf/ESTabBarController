@@ -58,6 +58,12 @@ internal protocol ESTabBarDelegate: NSObjectProtocol {
     ///   - item: 当前item
     /// - Returns: Bool
     func tabBar(_ tabBar: UITabBar, shouldSelect item: UITabBarItem) -> Bool
+
+    /// - Parameters:
+    ///   - tabBar: tabBar
+    ///   - item: 当前item
+    /// - Returns: Bool
+    func tabBar(_ tabBar: UITabBar, shouldHighlight item: UITabBarItem) -> Bool
     
     /// 当前item是否需要被劫持
     ///
@@ -308,7 +314,7 @@ internal extension ESTabBar /* Actions */ {
             return
         }
         
-        if (customDelegate?.tabBar(self, shouldSelect: item) ?? true) == false {
+        if (customDelegate?.tabBar(self, shouldHighlight: item) ?? true) == false {
             return
         }
         
@@ -327,8 +333,8 @@ internal extension ESTabBar /* Actions */ {
         guard newIndex < items?.count ?? 0, let item = self.items?[newIndex], item.isEnabled == true else {
             return
         }
-        
-        if (customDelegate?.tabBar(self, shouldSelect: item) ?? true) == false {
+
+        if (customDelegate?.tabBar(self, shouldHighlight: item) ?? true) == false {
             return
         }
         
